@@ -23,9 +23,13 @@ ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'changeme2026')
 PREFECT_POSITIONS = [
     "Head Boy",
     "Head Girl",
+    "Asst. Head Boy",
+    "Asst. Head Girl",
     "Health Prefect",
     "Sports Prefect",
     "Library Prefect",
+    "Social Prefect",
+    "Chapel Prefect",
 ]
 
 # --- DATABASE ENGINE ---
