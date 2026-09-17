@@ -52,10 +52,4 @@
 {% endif %}
 
 <p class="muted" style="margin-top:20px;"><a href="{{ url_for('admin') }}">&larr; Back to admin dashboard</a></p>
-{% endblock %}    {% if not results.added and not results.skipped and not results.errors %}
-        <p class="muted">No lines were processed — did you paste anything?</p>
-    {% endif %}
-{% endif %}
-
-<p class="muted" style="margin-top:20px;"><a href="{{ url_for('admin') }}">&larr; Back to admin dashboard</a></p>
 {% endblock %}
