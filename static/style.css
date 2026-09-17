@@ -47,14 +47,10 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: var(--gold);
-    color: var(--navy-dark);
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    background: #fff;
+    object-fit: cover;
     flex-shrink: 0;
+    box-shadow: 0 0 0 2px var(--gold);
 }
 
 .brand h1 {
