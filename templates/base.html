@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ school_name }} — Prefectship Election {{ election_year }}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header class="site-header">
         <div class="header-inner">
             <div class="brand">
-                <div class="crest">GA</div>
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="{{ school_name }} Crest" class="crest">
                 <div>
                     <h1>{{ school_name }}</h1>
                     <p class="tagline">Prefectship Election &middot; {{ election_year }} &middot; {{ academic_session }} Session</p>
@@ -40,4 +41,4 @@
         &copy; {{ election_year }} {{ school_name }} &mdash; Prefectship Election Portal
     </footer>
 </body>
-</html>
+                    </html>
