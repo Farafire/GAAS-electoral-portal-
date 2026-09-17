@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card-panel">
+    <h2>Admin Login</h2>
+    <p class="muted">Restricted access — election officials only.</p>
+    <form method="POST">
+        <label for="password">Admin Password</label>
+        <input type="password" id="password" name="password" required autofocus>
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+</div>
+{% endblock %}

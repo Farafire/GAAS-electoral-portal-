@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card-panel">
+    <h2>Prefect Nomination Form</h2>
+    <p class="muted">{{ academic_session }} Academic Session &mdash; {{ election_year }} Prefectship Election</p>
+    <form method="POST">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name" required>
+
+        <label for="position">Prefect Position Applied For</label>
+        <select id="position" name="position" required>
+            {% for pos in positions %}
+                <option value="{{ pos }}">{{ pos }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="manifesto">Manifesto / Statement of Purpose</label>
+        <textarea id="manifesto" name="manifesto" rows="5" placeholder="Why should students/teachers vote for you?" required></textarea>
+
+        <button type="submit" class="btn btn-primary">Submit Nomination</button>
+    </form>
+</div>
+{% endblock %}

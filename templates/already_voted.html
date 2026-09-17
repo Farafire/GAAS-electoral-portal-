@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card-panel center">
+    <h2>Thank You!</h2>
+    <p>You have already submitted your vote for the {{ election_year }} Prefectship Election. Only one ballot is allowed per voter.</p>
+    <a href="{{ url_for('logout') }}" class="btn btn-primary">Log Out</a>
+</div>
+{% endblock %}

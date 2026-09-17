@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="admin-header">
+    <h2>Admin Dashboard</h2>
+    <div>
+        <a href="{{ url_for('add_voters') }}" class="btn btn-secondary">Add Voters</a>
+        <a href="{{ url_for('export_results') }}" class="btn btn-secondary">Export to Excel</a>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-secondary">Log Out</a>
+    </div>
+</div>
+
+<div class="stats-row">
+    <div class="stat-box">
+        <span class="stat-number">{{ total_voted }}</span>
+        <span class="stat-label">Votes Cast</span>
+    </div>
+    <div class="stat-box">
+        <span class="stat-number">{{ total_voters }}</span>
+        <span class="stat-label">Registered Voters</span>
+    </div>
+    <div class="stat-box">
+        <span class="stat-number">{{ pending|length }}</span>
+        <span class="stat-label">Pending Nominations</span>
+    </div>
+</div>
+
+<h3>Pending Candidate Registrations</h3>
+{% if pending %}
+    {% for c in pending %}
+        <div class="card">
+            <strong>{{ c.full_name }}</strong> — Applied for: <em>{{ c.position }}</em>
+            <p>{{ c.manifesto }}</p>
+            <form method="POST" class="inline-form">
+                <input type="hidden" name="candidate_id" value="{{ c.id }}">
+                <button type="submit" name="action" value="approve" class="btn btn-approve">Approve</button>
+                <button type="submit" name="action" value="reject" class="btn btn-reject">Reject</button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="muted">No pending registrations.</p>
+{% endif %}
+
+<hr>
+<h3>Live Election Tally — {{ election_year }}</h3>
+<table class="results-table">
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Candidate Name</th>
+            <th>Total Votes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for candidate in candidates %}
+        <tr>
+            <td>{{ candidate.position }}</td>
+            <td>{{ candidate.full_name }}</td>
+            <td><strong>{{ candidate.vote_count }}</strong></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3" class="muted">No approved candidates yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

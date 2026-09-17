@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card-panel">
+    <h2>Voter Access Portal</h2>
+    <p class="muted">Enter your Voter ID to access the {{ election_year }} ballot.</p>
+    <form method="POST">
+        <label for="voter_id">Student / Teacher ID</label>
+        <input type="text" id="voter_id" name="voter_id" placeholder="e.g., STU101 or TCH001" required autofocus>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" class="btn btn-primary">Proceed to Vote</button>
+    </form>
+</div>
+{% endblock %}

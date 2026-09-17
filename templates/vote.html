@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Official Election Ballot</h2>
+<p class="muted">Welcome, {{ voter_name }}. Select your preferred candidate for each position below.
+    <a href="{{ url_for('change_password') }}">Change password</a></p>
+
+{% if positions %}
+<form method="POST">
+    {% for position, candidates in positions.items() %}
+        <h3 class="position-heading">{{ position }}</h3>
+        {% for candidate in candidates %}
+            <label class="candidate-card" for="cand_{{ candidate.id }}">
+                <input type="radio" id="cand_{{ candidate.id }}" name="{{ position }}" value="{{ candidate.id }}" required>
+                <div>
+                    <strong>{{ candidate.full_name }}</strong>
+                    <p class="manifesto"><em>Manifesto:</em> {{ candidate.manifesto }}</p>
+                </div>
+            </label>
+        {% endfor %}
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit Final Ballot</button>
+</form>
+{% else %}
+    <p>No approved candidates yet. Please check back once the admin has approved nominations.</p>
+{% endif %}
+{% endblock %}

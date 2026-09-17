@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add Voters</h2>
+<p class="muted">
+    Paste one voter per line, in the format: <code>Voter ID, Full Name, Role</code><br>
+    Role must be exactly <code>Student</code>, <code>Teacher</code>, or <code>Admin</code>.<br>
+    Each voter's starting password is their own Voter ID — tell them to change it after logging in.
+</p>
+
+<div class="card">
+    <pre style="white-space:pre-wrap; margin:0; font-size:13px; color:#4b5563;">STU101, John Doe, Student
+STU102, Mary Jane, Student
+TCH001, Mr. Smith, Teacher</pre>
+</div>
+
+<form method="POST">
+    <label for="voter_list">Voter List</label>
+    <textarea id="voter_list" name="voter_list" rows="10" placeholder="STU101, John Doe, Student" required></textarea>
+    <button type="submit" class="btn btn-primary">Add Voters</button>
+</form>
+
+{% if results %}
+    <hr>
+    <h3>Results</h3>
+    {% if results.added %}
+        <p><strong style="color:var(--success);">Added ({{ results.added|length }}):</strong> {{ results.added|join(', ') }}</p>
+    {% endif %}
+    {% if results.skipped %}
+        <p><strong style="color:#b45309;">Already existed, skipped ({{ results.skipped|length }}):</strong> {{ results.skipped|join(', ') }}</p>
+    {% endif %}
+    {% if results.errors %}
+        <p><strong style="color:var(--error);">Errors:</strong></p>
+        <ul>
+            {% for e in results.errors %}<li>{{ e }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+    {% if not results.added and not results.skipped and not results.errors %}
+        <p class="muted">No lines were processed — did you paste anything?</p>
+    {% endif %}
+{% endif %}
+
+<p class="muted" style="margin-top:20px;"><a href="{{ url_for('admin') }}">&larr; Back to admin dashboard</a></p>
+{% endblock %}
