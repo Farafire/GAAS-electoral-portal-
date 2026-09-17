@@ -1,23 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Add Voters</h2>
-<p class="muted">
-    Paste one voter per line, in the format: <code>Voter ID, Full Name, Role</code><br>
-    Role must be exactly <code>Student</code>, <code>Teacher</code>, or <code>Admin</code>.<br>
-    Each voter's starting password is their own Voter ID — tell them to change it after logging in.
-</p>
 
 <div class="card">
-    <pre style="white-space:pre-wrap; margin:0; font-size:13px; color:#4b5563;">STU101, John Doe, Student
-STU102, Mary Jane, Student
-TCH001, Mr. Smith, Teacher</pre>
+    <strong>Option 1 — Upload an Excel file (recommended)</strong>
+    <p class="muted" style="margin:8px 0;">
+        Download the template below, fill it in on your phone or computer (in Excel, Google Sheets,
+        or any spreadsheet app), then upload it back here.
+    </p>
+    <a href="{{ url_for('voter_template') }}" class="btn btn-secondary">Download Template (.xlsx)</a>
+
+    <form method="POST" enctype="multipart/form-data" style="margin-top:16px;">
+        <label for="voter_file">Upload Completed Template</label>
+        <input type="file" id="voter_file" name="voter_file" accept=".xlsx">
+        <button type="submit" class="btn btn-primary">Upload &amp; Add Voters</button>
+    </form>
 </div>
 
-<form method="POST">
-    <label for="voter_list">Voter List</label>
-    <textarea id="voter_list" name="voter_list" rows="10" placeholder="STU101, John Doe, Student" required></textarea>
-    <button type="submit" class="btn btn-primary">Add Voters</button>
-</form>
+<div class="card">
+    <strong>Option 2 — Paste a list instead</strong>
+    <p class="muted" style="margin:8px 0;">
+        One voter per line: <code>Voter ID, Full Name, Role</code>. Role must be exactly
+        <code>Student</code>, <code>Teacher</code>, or <code>Admin</code>.
+    </p>
+    <form method="POST">
+        <textarea name="voter_list" rows="8" placeholder="STU101, John Doe, Student"></textarea>
+        <button type="submit" class="btn btn-primary">Add Voters</button>
+    </form>
+</div>
+
+<p class="muted">Each voter's starting password is their own Voter ID — tell them to change it after logging in.</p>
 
 {% if results %}
     <hr>
@@ -35,6 +47,12 @@ TCH001, Mr. Smith, Teacher</pre>
         </ul>
     {% endif %}
     {% if not results.added and not results.skipped and not results.errors %}
+        <p class="muted">No rows were processed — did the file or paste box have content?</p>
+    {% endif %}
+{% endif %}
+
+<p class="muted" style="margin-top:20px;"><a href="{{ url_for('admin') }}">&larr; Back to admin dashboard</a></p>
+{% endblock %}    {% if not results.added and not results.skipped and not results.errors %}
         <p class="muted">No lines were processed — did you paste anything?</p>
     {% endif %}
 {% endif %}
