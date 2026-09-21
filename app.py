@@ -224,7 +224,7 @@ def change_password():
         else:
             conn.execute(
                 'UPDATE users SET password_hash = ? WHERE voter_id = ?',
-                (generate_password_hash(new_password, method='pbkdf2:sha256'), session['voter_id'])
+                (generate_password_hash(new_password, method='pbkdf2:sha256:150000'), session['voter_id'])
             )
             conn.commit()
             conn.close()
@@ -395,7 +395,7 @@ def _insert_voter(conn, voter_id, full_name, role):
 
     conn.execute(
         'INSERT INTO users (voter_id, full_name, role, password_hash) VALUES (?, ?, ?, ?)',
-        (voter_id, full_name, role, generate_password_hash(voter_id, method='pbkdf2:sha256'))
+        (voter_id, full_name, role, generate_password_hash(voter_id, method='pbkdf2:sha256:150000'))
     )
     return ('added', voter_id)
 
