@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card-panel center">
+    <h2>Voting Is Currently Closed</h2>
+    <p class="muted">The {{ election_year }} Prefectship Election is not accepting ballots right now. Please check back when voting reopens.</p>
+    <a href="{{ url_for('logout') }}" class="btn btn-primary">Log Out</a>
+</div>
+{% endblock %}
