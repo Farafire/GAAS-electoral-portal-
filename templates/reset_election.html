@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Reset for a New Election</h2>
+
+{% if done %}
+    <div class="card" style="border-color:var(--success);">
+        <strong style="color:var(--success);">Done!</strong>
+        <p>All candidates and vote records have been cleared. Voter accounts (Voter IDs, names, roles, passwords) were kept, so returning voters can log in as before.</p>
+    </div>
+    <p class="muted" style="margin-top:16px;"><a href="{{ url_for('admin') }}">&larr; Back to admin dashboard</a></p>
+{% else %}
+    <div class="card" style="border-color:var(--error);">
+        <strong style="color:var(--error);">Warning — this cannot be undone.</strong>
+        <p>This will permanently:</p>
+        <ul>
+            <li>Delete every candidate and their vote counts from this election</li>
+            <li>Reset every voter's "has voted" status, so they can vote again next time</li>
+        </ul>
+        <p><strong>It will NOT</strong> delete voter accounts (Voter IDs, names, roles, or passwords) — those stay, ready for reuse.</p>
+        <p class="muted">Make sure you've already exported this year's results before continuing.</p>
+    </div>
+
+    <form method="POST" style="margin-top:16px;">
+        <label for="confirmation">Type RESET (in capitals) to confirm</label>
+        <input type="text" id="confirmation" name="confirmation" required autocomplete="off">
+        <button type="submit" class="btn btn-reject">Reset Election Data</button>
+    </form>
+
+    <p class="muted" style="margin-top:20px;"><a href="{{ url_for('admin') }}">&larr; Cancel, back to admin dashboard</a></p>
+{% endif %}
+{% endblock %}
