@@ -20,7 +20,9 @@ ACADEMIC_SESSION = "2026/2027"
 ELECTION_YEAR = 2026
 # In production (Render), set ADMIN_PASSWORD as an environment variable.
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'changeme2026')
-
+# Set to 'false' as an environment variable to close voting between elections
+# without touching any code — handy for reusing this site year to year.
+ELECTION_OPEN = os.environ.get('ELECTION_OPEN', 'true').lower() != 'false'
 PREFECT_POSITIONS = [
     "Head Boy",
     "Head Girl",
@@ -278,6 +280,10 @@ def vote():
         conn.close()
         return render_template('already_voted.html')
 
+    if not ELECTION_OPEN:
+        conn.close()
+        return render_template('election_closed.html')
+
     if request.method == 'POST':
         submitted = request.form.to_dict()
 
@@ -375,7 +381,24 @@ def admin():
         total_voted=total_voted,
     )
 
+# 5b. Reset for a New Election (keeps voter accounts, clears candidates & votes)
+@app.route('/admin/reset-election', methods=['GET', 'POST'])
+@admin_required
+def reset_election():
+    done = False
+    if request.method == 'POST':
+        confirmation = request.form.get('confirmation', '')
+        if confirmation.strip().upper() == 'RESET':
+            conn = get_db_connection()
+            conn.execute('DELETE FROM candidates')
+            conn.execute('UPDATE users SET has_voted = 0')
+            conn.commit()
+            conn.close()
+            done = True
+        else:
+            flash('You must type RESET exactly to confirm.', 'error')
 
+    return render_template('reset_election.html', done=done)
 # 6. Add Voters (replaces running a local script — everything happens on the website)
 def _insert_voter(conn, voter_id, full_name, role):
     """Inserts one voter if valid and not already present.
